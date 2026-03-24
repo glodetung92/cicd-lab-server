@@ -2,7 +2,7 @@ name: Deploy to EC2
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   deploy:
@@ -21,14 +21,14 @@ jobs:
       - name: Zip and Upload to S3
         run: |
           aws deploy push \
-            --application-name MyWebApp \
-            --s3-location s3://ten-bucket-cua-ong/app.zip \
+            --application-name cicd-lab-app \
+            --s3-location s3://my-deploy-buket-123/app.zip \
             --source .
 
       - name: Create CodeDeploy Deployment
         run: |
           aws deploy create-deployment \
-            --application-name MyWebApp \
+            --application-name cicd-lab-app \
             --deployment-config-name CodeDeployDefault.OneAtATime \
-            --deployment-group-name MyDeploymentGroup \
-            --s3-location bucket=ten-bucket-cua-ong,key=app.zip,bundleType=zip
+            --deployment-group-name cicd-lab-group \
+            --s3-location bucket=my-deploy-buket-123,key=app.zip,bundleType=zip
