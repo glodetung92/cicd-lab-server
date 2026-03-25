@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Test CodeDeploy</title>
     <style>
-        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
-        h1 { color: #FF9900; } /* Màu cam của AWS */
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #008000;
+        }
+
+        /* Màu cam của AWS */
     </style>
 </head>
+
 <body>
     <h1>Chúc mừng! CodeDeploy đã chạy ngon lành!</h1>
     <p>Server: Amazon Linux 2023 (t3.nano)</p>
     <p>Deploy lúc: <span id="time"></span></p>
     <script>document.getElementById('time').innerHTML = new Date().toLocaleString();</script>
 </body>
+
 </html>
