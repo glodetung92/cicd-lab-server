@@ -14,21 +14,17 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-1 # Thay bằng region của ông (VD: us-east-1)
+          # Dung OIDC (Role) nhu file moi cho bao mat
+          role-to-assume: ${{ secrets.AWS_GITHUB_ROLE }}
+          aws-region: ap-northeast-1
 
-      - name: Zip and Upload to S3
+      - name: Deploy to EC2 using CodeDeploy (Github Source)
         run: |
-          aws deploy push \
-            --application-name cicd-lab-app \
-            --s3-location s3://my-deploy-buket-123/app.zip \
-            --source .
+          # Lay ma dinh danh cua commit lan nay
+          commit_hash=$(git rev-parse HEAD)
 
-      - name: Create CodeDeploy Deployment
-        run: |
+          # Ra lenh cho CodeDeploy lay code truc tiep tu Github
           aws deploy create-deployment \
             --application-name cicd-lab-app \
-            --deployment-config-name CodeDeployDefault.OneAtATime \
             --deployment-group-name cicd-lab-group \
-            --s3-location bucket=my-deploy-buket-123,key=app.zip,bundleType=zip
+            --github-location repository=${{ github.repository }},commitId=$commit_hash
